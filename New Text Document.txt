@@ -1,0 +1,6 @@
+slug
+pagination
+Customer User and unique
+email verification
+search bikes
+validations in views

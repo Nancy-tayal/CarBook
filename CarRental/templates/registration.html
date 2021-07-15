@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="w3layouts-main">
+	<div class="bg-layer">
+		<h1>Register</h1>
+		<div class="header-main">
+			<div class="main-icon">
+				<span class="fa fa-sign-in"></span>
+			</div>
+			<div class="header-left-bottom">
+				<form action="{% url 'register' %}" method="post">
+					{% csrf_token %}
+					<div class="icon1">
+						<span class="fa fa-user"></span>
+						<input type="text" name="name" placeholder="Full Name" style="color:white" required="" />
+					</div>
+					<div class="icon1">
+						<span class="fa fa-envelope"></span>
+						<input type="email" name="email" placeholder="Email Address" style="color:#fff;" required="" />
+					</div>
+					<div class="icon1">
+						<span class="fa fa-phone"></span>
+						<input type="tel" name="phone" placeholder="+918923230704" style="color:#fff;" required="" />
+					</div>
+					<div class="icon1">
+						<span class="fa fa-lock"></span>
+						<input type="password" name="password1" placeholder="Password" required="" minlength="8"
+							style="color: #fff;" />
+					</div>
+					<div class="icon1">
+						<span class="fa fa-lock"></span>
+						<input type="password" name="password2" placeholder="Confirm Password" required="" minlength="8"
+							style="color: #fff;" />
+					</div>
+					<div>
+						{% for i in messages %}
+						<center><p style="color: red;" >{{i}}</p></center>
+						{% endfor %}
+					</div>
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Register
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="copyright">
+			<p>© CARBOOK Registration Form. All rights reserved by CARBOOK.</a></p>
+		</div>
+	</div>
+</div>
+{% endblock %}

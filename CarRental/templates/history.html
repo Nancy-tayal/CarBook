@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="width: 100%; height:70px; background-color:black"></div>
+<div style="margin-top:30px; text-align:center">
+    <h1><strong>{{user.name}}</strong> your rental history is:</h1>
+    <table border="2" style="width:60%;margin:0 auto;border-collapse:collapse;text-align:center; font-size:18px;">
+        <tr style="color: black;">
+            <th>Car Name</th>
+            <th>Starting Date-Time</th>
+            <th>Ending Date-Time</th>
+            <th>Total Time</th>
+            <th>Total Cost</th>
+        </tr>
+        {%for rentcar in rentcar_list %}
+        <tr>
+            <th>{{rentcar.car.name}}</th>
+            <th>{{rentcar.start}}</th>
+            <th>{{rentcar.end}}</th>
+            <th>{{rentcar.time}}</th>
+            <th>{{rentcar.cost}}</th>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2><strong>Thank You!!!</strong></h2>
+{% endblock %}

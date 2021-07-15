@@ -1,0 +1,153 @@
+{% extends 'main.html' %}
+{% block content %}
+<div style="width: 100%; height:70px; background-color:black"></div>
+<section class="ftco-section ftco-no-pt bg-light">
+    <div style="width: 100%;">
+        <h1 style="text-align: center; padding-top:30px;font-weight:600 ">Rent <strong>{{car.name}}</strong> Now!</h1>
+    </div>
+    <div class="container" style="margin-top: 50px;">
+        <div class="row ">
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="listing d-block  align-items-stretch">
+                    <div class="listing-img h-100 mr-4">
+                        <img src="{{car.img.url}}" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="listing-contents h-100">
+                        <h3 style="text-align: center;">{{car.name}}</h3>
+                        <div class="row border-bottom-2">
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                <span class="caption">Rent:</span>
+                                <i class="fa fa-inr" aria-hidden="true"></i><strong>{{car.rent}}</strong><span
+                                    class="mx-1">/</span>hour
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                <span class="caption">Engine:</span>
+                                <span class="number">{{car.engine}}</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                <span class="caption">Mileage:</span>
+                                <span class="number">{{car.mileage}}</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                <span class="caption">Fuel:</span>
+                                <span class="number">{{car.fuel}}</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                <span class="caption">Transmission:</span>
+                                <span class="number">{{car.transmission}}</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                <span class="caption">Luggage:</span>
+                                <span class="number">{{car.luggage}} bags</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                <span class="caption">Doors:</span>
+                                <span class="number">{{car.door}} doors</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                <span class="caption">Seats:</span>
+                                <span class="number">{{car.seats}} seats</span>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; padding-top:5px">
+                            <span class="caption" style="margin-right: 2px;">Number of cars instock:</span>
+                            {% if car.instock > 1 %}
+                            <span class="number">{{car.instock}} Cars</span>
+                            {% else %}
+                            <span class="number">Only {{car.instock}} Car</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-5 align-items-center">
+                <form action="{% url 'successful' car.id %}" method="post" class="request-form-2 ftco-animate ">
+                    {% csrf_token %}
+                    <h2>Make your trip</h2>
+                    <div class="form-group" style="margin-bottom: 5px; text-align:center">
+                        <label for="" class="label">Rent Per Hour: </label>
+                        <i class="fa fa-inr" aria-hidden="true"></i><strong> {{car.rent}}</strong>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="label">Starting Date-Time</label>
+                        <input type="datetime-local" name="startTime" id="start" class="form-control" required>
+                    </div>
+                    <div class="form-group mr-2">
+                        <label for="" class="label">Ending Date-Time</label>
+                        <input type="datetime-local" id="end" name="endTime" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="label">Total Duration </label>
+                        <input type="text" name="hours" id="hours" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="label">Total Rent </label>
+                        <input type="text" name="cost" id="cost" value="&#8377;" class="form-control" readonly>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="form-group">
+                        <input type="submit" value="Rent Now" class="btn btn-secondary py-3 px-4">
+                    </div>
+                    {% else %}
+                    <script>
+                        alert("Login or SignUp first!!!")
+                    </script>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var a, b, c, d, minutes, cost, hours, x, val;
+    document.getElementById("start").addEventListener("change", function () {
+        a = this.value;
+        b = new Date(a);
+        if (!isNaN(d)) {
+            minutes = ((d - b)) / (10000 * 6);
+            if (minutes <= 0) {
+                alert("Ending Date-Time should exceed Starting Dtae-Time!")
+            }
+            else {
+                minutes = Math.round(minutes);
+                x = "{{car.rent}}";
+                cost = Math.round(minutes * x / 60);
+                hours = Math.round(minutes / 60);
+                minutes = minutes % 60;
+                val = document.getElementById("cost").value;
+                document.getElementById("cost").value = val[0] + " " + cost;
+                if (minutes)
+                    document.getElementById("hours").value = hours + " Hours " + minutes + " Minutes";
+                else
+                    document.getElementById("hours").value = hours + " Hours ";
+            }
+        }
+    });
+    document.getElementById("end").addEventListener("change", function () {
+        c = this.value;
+        d = new Date(c);
+        if (!isNaN(b)) {
+            minutes = ((d - b)) / (10000 * 6);
+            if (minutes <= 0) {
+                alert("Ending Date-Time should exceed Starting Date-Time!")
+            }
+            else {
+                minutes = Math.round(minutes);
+                x = "{{car.rent}}";
+                cost = Math.round(minutes * x / 60);
+                hours = Math.round(minutes / 60);
+                minutes = minutes % 60;
+                val = document.getElementById("cost").value;
+                document.getElementById("cost").value = val[0] + " " + cost;
+                if (minutes)
+                    document.getElementById("hours").value = hours + " Hours " + minutes + " Minutes";
+                else
+                    document.getElementById("hours").value = hours + " Hours ";
+            }
+        }
+    });
+</script>
+{% endblock %}
